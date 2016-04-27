@@ -11,8 +11,7 @@ RUN apk add --no-cache ca-certificates \
       && chmod -R 777 /go \
       && go get github.com/arukasio/cli/cmd/arukas \
       && apk del --purge build-dependencies \
+      && touch /.env \
       && rm -rf /go/pkg /go/src
-
-EXPOSE 80
 
 ENTRYPOINT ["/go/bin/arukas"]
