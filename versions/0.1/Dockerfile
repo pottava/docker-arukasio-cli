@@ -1,17 +1,15 @@
 # Dockerfile
+# v0.1.2
 
 FROM alpine:3.3
 MAINTAINER @pottava
 
-ENV GOPATH=/go PATH=/go/bin:$PATH
+ENV ARUKAS_VERSION=0.1.2
 
 RUN apk add --no-cache ca-certificates \
-      && apk --no-cache add --virtual build-dependencies go git \
-      && mkdir -p /go/src /go/bin \
-      && chmod -R 777 /go \
-      && go get github.com/arukasio/cli/cmd/arukas \
-      && apk del --purge build-dependencies \
-      && touch /.env \
-      && rm -rf /go/pkg /go/src
+      && curl --location --show-error \
+         -O https://github.com/arukasio/cli/releases/download/v${ARUKAS_VERSION}/arukas_v${ARUKAS_VERSION}_linux_amd64.zip \
+      && unzip arukas_${ARUKAS_CLI_VERSION}_linux_amd64.zip \
+      && rm -f arukas_${ARUKAS_CLI_VERSION}_linux_amd64.zip
 
-ENTRYPOINT ["/go/bin/arukas"]
+ENTRYPOINT ["/arukas"]
